@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "百度人脸识别",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smarthomefans/node-red-contrib-baidu-face.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,6 +18,9 @@
       "baidu-face": "baidu-face.js",
       "baidu-face-configurator": "baidu-face-configurator.js"
     }
+  },
+  "bugs": {
+    "url": "https://github.com/smarthomefans/node-red-contrib-baidu-face/issues"
   },
   "author": "yaming116",
   "license": "MIT",
