@@ -1,0 +1,29 @@
+{
+  "name": "red-contrib-baidu-face",
+  "version": "1.0.0",
+  "description": "百度人脸识别",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node-red"
+  ],
+  "node-red": {
+    "nodes": {
+      "baidu-face": "baidu-face.js",
+      "baidu-face-configurator": "baidu-face-configurator.js"
+    }
+  },
+  "author": "yaming116",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-config-vue": "^2.0.2",
+    "eslint-plugin-vue": "^5.2.2"
+  }
+}

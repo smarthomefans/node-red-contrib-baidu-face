@@ -1,0 +1,177 @@
+<script type="text/javascript">
+
+    RED.nodes.registerType('baidu-face', {
+        category: '百度',
+        color: '#7ac6cb',
+        paletteLabel: '人脸识别',
+        label() {
+            return this.name || '人脸识别'
+        },
+        defaults: {
+            name: {
+                value: ''
+            },
+            baiduface: {
+                value: '',
+                type: 'baidu-face-configurator'
+            },
+            image: {
+                value: ''
+            },
+            max_face_num: {
+                value: ''
+            },
+            group_id_list: {
+                value: ''
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'white-globe.png'
+    })
+</script>
+
+
+<script type="text/x-red" data-template-name="baidu-face">
+      <div class="form-row">
+        <label for="node-input-baiduface"><i class="icon-tag"></i>配置</label>
+        <input type="text" id="node-input-baiduface">
+      </div>
+      <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i>名称</label>
+        <input type="text" id="node-input-name">
+      </div>
+      <div class="form-row">
+        <label for="node-input-image"><i class="icon-tag"></i>Base64图片</label>
+        <input type="text" id="node-input-image" placeholder="需要识别的图片信息">
+      </div>
+      <div class="form-row">
+        <label for="node-input-max_face_num"><i class="icon-tag"></i>人脸的数目</label>
+        <input type="number" id="node-input-max_face_num" placeholder="最多处理人脸的数目，默认5">
+      </div>
+      <div class="form-row">
+        <label for="node-input-group_id_list"><i class="icon-tag"></i>用户组</label>
+        <input id="node-input-group_id_list" placeholder="从指定的group中进行查找 用逗号分隔，上限10个" ></input>
+      </div>
+      <div class="form-row">
+        <label style="width: 100%;text-align: right;padding-right: 34px;box-sizing: border-box;" >
+          <a href="https://bbs.iobroker.cn/thread-195-1-1.html" target="_blank">手摸手图文教程 (ioBroker中国|智能家居)提供</a>
+        </label>
+      </div>
+    </script>
+<script type="text/x-red" data-help-name="baidu-face">
+        <p>人脸搜索 M：N识别：也称为M：N识别，待识别图片中含有多个人脸时，在指定人脸集合中，找到这多个人脸分别最相似的人脸</p>
+        <h3>输入</h3>
+        <dl class="message-properties">
+            <dt>payload
+                <span class="property-type">string</span>
+            </dt>
+            <dd>Base64图片，Base64图片</dd>
+            <dt class="optional">max_face_num <span class="property-type">number</span>
+            </dt>
+            <dd>最多处理人脸的数目，默认5</dd>
+            <dd>Base64图片，Base64图片</dd>
+            <dt >group_id_list <span class="property-type">string</span>
+            </dt>
+            <dd>从指定的group中进行查找 用逗号分隔，上限10个</dd>
+        </dl>
+        <h3>输出</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>字段</th>
+                    <th>必选</th>
+                    <th>类型</th>
+                    <th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>face_num</td>
+                    <td>是</td>
+                    <td>int</td>
+                    <td>图片中的人脸数量</td>
+                </tr>
+                <tr>
+                    <td>face_list</td>
+                    <td>是</td>
+                    <td>array</td>
+                    <td>人脸信息列表</td>
+                </tr>
+                <tr>
+                    <td>+face_token</td>
+                    <td>是</td>
+                    <td>string</td>
+                    <td>人脸标志</td>
+                </tr>
+                <tr>
+                    <td>+location</td>
+                    <td>是</td>
+                    <td>array</td>
+                    <td>人脸在图片中的位置</td>
+                </tr>
+                <tr>
+                    <td>++left</td>
+                    <td>是</td>
+                    <td>double</td>
+                    <td>人脸区域离左边界的距离</td>
+                </tr>
+                <tr>
+                    <td>++top</td>
+                    <td>是</td>
+                    <td>double</td>
+                    <td>人脸区域离上边界的距离</td>
+                </tr>
+                <tr>
+                    <td>++width</td>
+                    <td>是</td>
+                    <td>double</td>
+                    <td>人脸区域的宽度</td>
+                </tr>
+                <tr>
+                    <td>++height</td>
+                    <td>是</td>
+                    <td>double</td>
+                    <td>人脸区域的高度</td>
+                </tr>
+                <tr>
+                    <td>++rotation</td>
+                    <td>是</td>
+                    <td>int64</td>
+                    <td>人脸框相对于竖直方向的顺时针旋转角，[-180,180]</td>
+                </tr>
+                <tr>
+                    <td>+user_list</td>
+                    <td>是</td>
+                    <td>array</td>
+                    <td>匹配的用户信息列表</td>
+                </tr>
+                <tr>
+                    <td>++group_id</td>
+                    <td>是</td>
+                    <td>string</td>
+                    <td>用户所属的group_id</td>
+                </tr>
+                <tr>
+                    <td>++user_id</td>
+                    <td>是</td>
+                    <td>string</td>
+                    <td>用户的user_id</td>
+                </tr>
+                <tr>
+                    <td>++user_info</td>
+                    <td>是</td>
+                    <td>string</td>
+                    <td>注册用户时携带的user_info</td>
+                </tr>
+                <tr>
+                    <td>++score</td>
+                    <td>是</td>
+                    <td>float</td>
+                    <td>用户的匹配得分<br><strong>80分以上可以判断为同一人，此分值对应万分之一误识率</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        
+    </script>
