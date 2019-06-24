@@ -22,10 +22,13 @@ module.exports = RED => {
           const userInfo = await bd.searchFace(data)
           data.payload = userInfo
           node.status({ text: `识别成功:${data._msgid}` })
-          node.send(data)
+          node.send([data, null])
         } catch (err) {
           node.status({ text: err.message, fill: 'red', shape: 'ring' })
           node.warn(err)
+          data.payload = {}
+          data.error_msg = err.message
+          node.send([null ,data])
         }
       })
     }

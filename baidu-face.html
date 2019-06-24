@@ -32,7 +32,7 @@
             }
         },
         inputs: 1,
-        outputs: 1,
+        outputs: 2,
         icon: 'white-globe.png'
     })
 </script>
@@ -90,6 +90,7 @@
             <dd>从指定的group中进行查找 用逗号分隔，上限10个</dd>
         </dl>
         <h3>输出</h3>
+        <p>当发生错误的时候，将会从输出2里面输出msg.payload = {} ,如果需要请做相关业务处理</p>
         <table>
             <thead>
                 <tr>
