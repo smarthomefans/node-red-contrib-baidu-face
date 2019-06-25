@@ -35,6 +35,34 @@
         outputs: 2,
         icon: 'white-globe.png'
     })
+
+    RED.nodes.registerType('baidu-body-num', {
+        category: '百度',
+        color: '#7ac6cb',
+        paletteLabel: '人流量统计',
+        label() {
+            return this.name || '人流量统计'
+        },
+        defaults: {
+            name: {
+                value: ''
+            },
+            baiduface: {
+                value: '',
+                type: 'baidu-face-configurator'
+            },
+            image: {
+                value: ''
+            },
+            show: {
+                value: false
+            },
+           
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'white-globe.png'
+    })
 </script>
 
 
@@ -72,7 +100,7 @@
           <a href="https://bbs.iobroker.cn/thread-195-1-1.html" target="_blank">手摸手图文教程 (ioBroker中国|智能家居)提供</a>
         </label>
       </div>
-    </script>
+</script>
 <script type="text/x-red" data-help-name="baidu-face">
         <p>人脸搜索 M：N识别：也称为M：N识别，待识别图片中含有多个人脸时，在指定人脸集合中，找到这多个人脸分别最相似的人脸</p>
         <h3>输入</h3>
@@ -187,6 +215,79 @@
                 </tr>
             </tbody>
         </table>
-
         
-    </script>
+</script>
+
+<script type="text/x-red" data-template-name="baidu-body-num">
+    <div class="form-row">
+      <label for="node-input-baiduface"><i class="icon-tag"></i>配置</label>
+      <input type="text" id="node-input-baiduface">
+    </div>
+    <div class="form-row">
+      <label for="node-input-name"><i class="icon-tag"></i>名称</label>
+      <input type="text" id="node-input-name">
+    </div>
+    <div class="form-row">
+      <label for="node-input-image"><i class="icon-tag"></i>Base64图片</label>
+      <input type="text" id="node-input-image" placeholder="需要识别的图片信息">
+    </div>
+    <div class="form-row">
+      <label for="node-input-show"><i class="icon-tag"></i>结果</label>
+      <input type="checkbox" id="node-input-show" style="display: inline-block; width: auto; vertical-align: top;">
+      <label style="width: 50%;"><span >是否输出渲染的结果？</span></label>
+    </div>
+    
+    <div class="form-row">
+      <label style="width: 100%;text-align: right;padding-right: 34px;box-sizing: border-box;" >
+        <a href="https://bbs.iobroker.cn/thread-195-1-1.html" target="_blank">手摸手图文教程 (ioBroker中国|智能家居)提供</a>
+      </label>
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="baidu-body-num">
+    <p>对于输入的一张图片（可正常解码，且长宽比适宜），识别和统计图像当中的人体个数（静态统计，不支持追踪和去重）。</p>
+    <h3>输入</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">string</span>
+        </dt>
+        <dd>Base64图片，Base64图片</dd>
+        <dt class="optional">show <span class="property-type">boolean</span>
+        </dt>
+        <dd>否输出渲染的图片，默认不返回，选true时返回渲染后的图片(base64)，其它无效值或为空则默认false</dd>
+        
+    </dl>
+    <h3>输出</h3>
+    <p>当发生错误的时候，将会从输出2里面输出msg.payload = {} ,如果需要请做相关业务处理</p>
+    <table>
+        <thead>
+            <tr>
+                <th>字段</th>
+                <th>是否必选</th>
+                <th>类型</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>person_num</td>
+                <td>是</td>
+                <td>uint64</td>
+                <td>识别出的人体数目；<strong>当未设置area参数时，返回的是全图人数；设置了有效的area参数时，返回的人数是所有区域的人数总和（所有区域求并集后的不规则区域覆盖的人数）</strong></td>
+            </tr>
+            <tr>
+                <td>image</td>
+                <td>否</td>
+                <td>string</td>
+                <td>渲染后的图片，输入参数show=true时输出该字段</td>
+            </tr>
+            <tr>
+                <td>area_counts</td>
+                <td>否</td>
+                <td>array</td>
+                <td>每一个框选区域的人数，<strong>仅当请求中有area参数且参数有效时才会返回，否则该字段不返回</strong>；成功返回示例：[5,3,8]</td>
+            </tr>
+        </tbody>
+    </table>
+
+</script>

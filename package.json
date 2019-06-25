@@ -25,7 +25,8 @@
   "author": "yaming116",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.18.0"
+    "axios": "^0.18.0",
+    "qs": "^6.7.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
