@@ -63,6 +63,34 @@
         outputs: 1,
         icon: 'white-globe.png'
     })
+
+    RED.nodes.registerType('baidu-dynamic-body-num', {
+        category: '百度',
+        color: '#7ac6cb',
+        paletteLabel: '人流量统计（动态版）',
+        label() {
+            return this.name || '人流量统计（动态版）'
+        },
+        defaults: {
+            name: {
+                value: ''
+            },
+            baiduface: {
+                value: '',
+                type: 'baidu-face-configurator'
+            },
+            image: {
+                value: ''
+            },
+            show: {
+                value: false
+            },
+           
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'white-globe.png'
+    })
 </script>
 
 
@@ -285,6 +313,134 @@
                 <td>否</td>
                 <td>array</td>
                 <td>每一个框选区域的人数，<strong>仅当请求中有area参数且参数有效时才会返回，否则该字段不返回</strong>；成功返回示例：[5,3,8]</td>
+            </tr>
+        </tbody>
+    </table>
+
+</script>
+
+
+<script type="text/x-red" data-template-name="baidu-dynamic-body-num">
+    <div class="form-row">
+      <label for="node-input-baiduface"><i class="icon-tag"></i>配置</label>
+      <input type="text" id="node-input-baiduface">
+    </div>
+    <div class="form-row">
+      <label for="node-input-name"><i class="icon-tag"></i>名称</label>
+      <input type="text" id="node-input-name">
+    </div>
+    <div class="form-row">
+      <label for="node-input-image"><i class="icon-tag"></i>Base64图片</label>
+      <input type="text" id="node-input-image" placeholder="需要识别的图片信息">
+    </div>
+    <div class="form-row">
+      <label for="node-input-show"><i class="icon-tag"></i>结果</label>
+      <input type="checkbox" id="node-input-show" style="display: inline-block; width: auto; vertical-align: top;">
+      <label style="width: 50%;"><span >是否输出渲染的结果？</span></label>
+    </div>
+    
+    <div class="form-row">
+      <label style="width: 100%;text-align: right;padding-right: 34px;box-sizing: border-box;" >
+        <a href="https://bbs.iobroker.cn/thread-195-1-1.html" target="_blank">手摸手图文教程 (ioBroker中国|智能家居)提供</a>
+      </label>
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="baidu-dynamic-body-num">
+    <p>统计图像中的人体个数和流动趋势。静态人数统计：传入单帧图像，检测图片中的人体头肩，返回图中总人数。</p>
+    <h3>输入</h3>
+    <dl class="message-properties">
+        <dt>image
+            <span class="property-type">string</span>
+        </dt>
+        <dd>Base64图片，Base64图片</dd>
+        <dt class="optional">show <span class="property-type">boolean</span>
+        </dt>
+        <dd>是否输出渲染的图片，默认不返回，选true时返回渲染后的图片(base64)，其它无效值或为空则默认false</dd>
+        
+    </dl>
+    <h3>输出</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>字段</th>
+                <th>是否必选</th>
+                <th>类型</th>
+                <th>说明</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>person_num</td>
+                <td>是</td>
+                <td>int</td>
+                <td>检测到的人体框数目</td>
+            </tr>
+            <tr>
+                <td>person_info</td>
+                <td>否</td>
+                <td>object[]</td>
+                <td>每个框的具体信息</td>
+            </tr>
+            <tr>
+                <td>+location</td>
+                <td>否</td>
+                <td>object</td>
+                <td>跟踪到的人体框位置</td>
+            </tr>
+            <tr>
+                <td>++left</td>
+                <td>否</td>
+                <td>int</td>
+                <td>人体框左坐标</td>
+            </tr>
+            <tr>
+                <td>++top</td>
+                <td>否</td>
+                <td>int</td>
+                <td>人体框顶坐标</td>
+            </tr>
+            <tr>
+                <td>++width</td>
+                <td>否</td>
+                <td>int</td>
+                <td>人体框宽度</td>
+            </tr>
+            <tr>
+                <td>++height</td>
+                <td>否</td>
+                <td>int</td>
+                <td>人体框高度</td>
+            </tr>
+            <tr>
+                <td>+ID</td>
+                <td>否</td>
+                <td>int</td>
+                <td>人体的ID编号</td>
+            </tr>
+            <tr>
+                <td>person_count</td>
+                <td>否</td>
+                <td>object</td>
+                <td>进出区域的人流统计</td>
+            </tr>
+            <tr>
+                <td>+in</td>
+                <td>否</td>
+                <td>int</td>
+                <td>进入区域的人数</td>
+            </tr>
+            <tr>
+                <td>+out</td>
+                <td>否</td>
+                <td>int</td>
+                <td>离开区域的人数</td>
+            </tr>
+            <tr>
+                <td>image</td>
+                <td>否</td>
+                <td>string</td>
+                <td>结果图，含跟踪框和统计值（渲染jpg图片byte内容的base64编码，得到后先做base64解码再以字节流形式imdecode）</td>
             </tr>
         </tbody>
     </table>
