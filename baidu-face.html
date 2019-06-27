@@ -105,7 +105,7 @@
         <p>人脸搜索 M：N识别：也称为M：N识别，待识别图片中含有多个人脸时，在指定人脸集合中，找到这多个人脸分别最相似的人脸</p>
         <h3>输入</h3>
         <dl class="message-properties">
-            <dt>payload
+            <dt>image
                 <span class="property-type">string</span>
             </dt>
             <dd>Base64图片，Base64图片</dd>
@@ -248,13 +248,13 @@
     <p>对于输入的一张图片（可正常解码，且长宽比适宜），识别和统计图像当中的人体个数（静态统计，不支持追踪和去重）。</p>
     <h3>输入</h3>
     <dl class="message-properties">
-        <dt>payload
+        <dt>image
             <span class="property-type">string</span>
         </dt>
         <dd>Base64图片，Base64图片</dd>
         <dt class="optional">show <span class="property-type">boolean</span>
         </dt>
-        <dd>否输出渲染的图片，默认不返回，选true时返回渲染后的图片(base64)，其它无效值或为空则默认false</dd>
+        <dd>是否输出渲染的图片，默认不返回，选true时返回渲染后的图片(base64)，其它无效值或为空则默认false</dd>
         
     </dl>
     <h3>输出</h3>
