@@ -60,10 +60,11 @@
            
         },
         inputs: 1,
-        outputs: 1,
+        outputs: 2,
         icon: 'white-globe.png'
     })
 
+    
     RED.nodes.registerType('baidu-dynamic-body-num', {
         category: '百度',
         color: '#7ac6cb',
@@ -89,6 +90,34 @@
         },
         inputs: 1,
         outputs: 1,
+        icon: 'white-globe.png'
+    })
+
+    RED.nodes.registerType('baidu-body-attr', {
+        category: '百度',
+        color: '#7ac6cb',
+        paletteLabel: '人体检测',
+        label() {
+            return this.name || '人体检测'
+        },
+        defaults: {
+            name: {
+                value: ''
+            },
+            baiduface: {
+                value: '',
+                type: 'baidu-face-configurator'
+            },
+            image: {
+                value: ''
+            },
+            baidu_type: {
+                value: 'is_human'
+            },
+           
+        },
+        inputs: 1,
+        outputs: 2,
         icon: 'white-globe.png'
     })
 </script>
@@ -284,8 +313,49 @@
         </dt>
         <dd>是否输出渲染的图片，默认不返回，选true时返回渲染后的图片(base64)，其它无效值或为空则默认false</dd>
         
+</script>
+
+<script type="text/x-red" data-template-name="baidu-body-num">
+    <div class="form-row">
+      <label for="node-input-baiduface"><i class="icon-tag"></i>配置</label>
+      <input type="text" id="node-input-baiduface">
+    </div>
+    <div class="form-row">
+      <label for="node-input-name"><i class="icon-tag"></i>名称</label>
+      <input type="text" id="node-input-name">
+    </div>
+    <div class="form-row">
+      <label for="node-input-image"><i class="icon-tag"></i>Base64图片</label>
+      <input type="text" id="node-input-image" placeholder="需要识别的图片信息">
+    </div>
+    <div class="form-row">
+      <label for="node-input-show"><i class="icon-tag"></i>结果</label>
+      <input type="checkbox" id="node-input-show" style="display: inline-block; width: auto; vertical-align: top;">
+      <label ><span >是否输出渲染的结果？</span></label>
+    </div>
+    
+    <div class="form-row">
+      <label style="width: 100%;text-align: right;padding-right: 34px;box-sizing: border-box;" >
+        <a href="https://bbs.iobroker.cn/thread-195-1-1.html" target="_blank">手摸手图文教程 (ioBroker中国|智能家居)提供</a>
+      </label>
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="baidu-body-num">
+    <p>对于输入的一张图片（可正常解码，且长宽比适宜），识别和统计图像当中的人体个数（静态统计，不支持追踪和去重）。</p>
+    <h3>输入</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">string</span>
+        </dt>
+        <dd>Base64图片，Base64图片</dd>
+        <dt class="optional">show <span class="property-type">boolean</span>
+        </dt>
+        <dd>否输出渲染的图片，默认不返回，选true时返回渲染后的图片(base64)，其它无效值或为空则默认false</dd>
+        
     </dl>
     <h3>输出</h3>
+    <p>当发生错误的时候，将会从输出2里面输出msg.payload = {} ,如果需要请做相关业务处理</p>
     <table>
         <thead>
             <tr>
@@ -354,7 +424,7 @@
             <span class="property-type">string</span>
         </dt>
         <dd>Base64图片，Base64图片</dd>
-        <dt class="optional">show <span class="property-type">boolean</span>
+        <dt class="optional">show <span class="property-type">string</span>
         </dt>
         <dd>是否输出渲染的图片，默认不返回，选true时返回渲染后的图片(base64)，其它无效值或为空则默认false</dd>
         
@@ -444,5 +514,48 @@
             </tr>
         </tbody>
     </table>
+</script>
+
+<script type="text/x-red" data-template-name="baidu-body-attr">
+    <div class="form-row">
+      <label for="node-input-baiduface"><i class="icon-tag"></i>配置</label>
+      <input type="text" id="node-input-baiduface">
+    </div>
+    <div class="form-row">
+      <label for="node-input-name"><i class="icon-tag"></i>名称</label>
+      <input type="text" id="node-input-name">
+    </div>
+    <div class="form-row">
+      <label for="node-input-image"><i class="icon-tag"></i>Base64图片</label>
+      <input type="text" id="node-input-image" placeholder="需要识别的图片信息">
+    </div>
+    <div class="form-row">
+        <label for="node-input-baidu_type"><i class="icon-tag"></i>可选值类型</label>
+        <input type="text" id="node-input-baidu_type" placeholder="baidu_type 参数值可以是可选值的组合，用逗号分隔" >
+      </div>
+    
+    <div class="form-row">
+      <label style="width: 100%;text-align: right;padding-right: 34px;box-sizing: border-box;" >
+        <a href="https://bbs.iobroker.cn/thread-195-1-1.html" target="_blank">手摸手图文教程 (ioBroker中国|智能家居)提供</a>
+      </label>
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="baidu-body-attr">
+    <p>对于输入的一张图片（可正常解码，且长宽比适宜），检测图像中的所有人体并返回每个人体的矩形框位置，识别人体的静态属性和行为，共支持20余种属性，包括：性别、年龄阶段、衣着（含类别/颜色）、是否戴帽子、是否戴眼镜、是否背包、是否使用手机、身体朝向等。</p>
+    <h3>输入</h3>
+    <dl class="message-properties">
+        <dt>payload
+            <span class="property-type">string</span>
+        </dt>
+        <dd>Base64图片，Base64图片</dd>
+        <dt class="optional">baidu_type <span class="property-type">string</span>
+        </dt>
+        <dd>baidu_type 参数值可以是可选值的组合，用逗号分隔；如果无此参数默认输出全部21个属性</dd>
+        
+    </dl>
+    <h3>输出</h3>
+    <p>当发生错误的时候，将会从输出2里面输出msg.payload = {} ,如果需要请做相关业务处理</p>
+    <a href='https://ai.baidu.com/docs#/Body-API/2a682e7c'>具体返回说明看这里</a>
 
 </script>
